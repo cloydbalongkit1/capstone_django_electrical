@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token-meta" content="{{ csrf_token }}">
+    <title>
+        {% if title %} {{ title }} {% else %} Document {% endif %}
+    </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'circuits/styles.css' %}">
+    <script src="{% static 'circuits/calculate.js' %}" defer></script>
+    <script src="{% static 'circuits/home.js' %}" defer></script>
+</head>
+<body>
+    <div class="container mt-2">
+        <nav>
+            <h1>Navbar</h1>
+        </nav>
+    </div>
+    <hr>
+    <div class="container mt-2">
+        {% if message %}
+            <small>{{ message }}</small>
+        {% endif %}
+    </div>
+    
+
+    <div class="container mt-2">
+        {% block body %} {% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+    
+</body>
+    
+</html>

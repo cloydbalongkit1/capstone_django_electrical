@@ -1,0 +1,13 @@
+{% extends "circuits/layout.html" %}
+
+{% block body %}
+   
+    <h3>Home</h3>
+    <p>Name: {{user}}</p>
+    <a href="{% url 'logout_user' %}">Logout</a>
+
+    <hr>
+
+    <p>Electrical Calculations - <a href="{% url 'calculate' %}">GO</a></p>
+
+{% endblock %}

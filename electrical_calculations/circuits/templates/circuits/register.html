@@ -1,0 +1,17 @@
+{% extends "circuits/layout.html" %}
+
+{% block body %}
+    <h3>Register</h3>
+
+    <form action="{% url 'register' %}" method="post">
+        {% csrf_token %}
+        <input required type="text" name="email" placeholder="Email">
+        <input required type="text" name="username" placeholder="Username">
+        <input required type="password" name="password" placeholder="Password" >
+        <input required type="password" name="confirm-password" placeholder="Confirm Password" >
+        <button type="submit">Submit</button>
+    </form>
+
+    <p>Already have account? <a href="{% url 'user_login' %}">Login</a></p>
+
+{% endblock %}
