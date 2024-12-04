@@ -1,0 +1,32 @@
+{% extends "circuits/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <div class="user_profile container">
+        <div class="profile-header">
+            <img src="{% static 'circuits/images/sample.jpg' %}" alt="Profile Picture" class="profile-picture">
+        </div>
+        <div class="profile-info p-3 bg-light">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h3>{{ user.first_name.title }} {{ user.last_name.title }}</h3>
+                    <p class="text-muted">@{{ user.username }}</p>
+                    <form action="{% url 'edit_profile' %}" method="get">
+                        {% csrf_token %}
+                        <button class='btn btn-outline-secondary btn-sm'>Edit Profile</button>
+                    </form>
+                </div>
+            </div>
+            <hr>
+            <div class="bio-details">
+                <p><strong>Bio:</strong> {{ user.bio }}</p>
+            </div>
+            <div class="profile-details">
+                <p><strong>Work:</strong> {{ user.work }}</p>
+                <p><strong>Location:</strong> {{ user.location }}</p>
+                <p><strong>Joined:</strong> {{ user.date_joined|date:"F Y" }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

@@ -2,12 +2,95 @@
 
 {% block body %}
    
-    <h3>Home</h3>
-    <p>Name: {{user}}</p>
-    <a href="{% url 'logout_user' %}">Logout</a>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <h3>Home</h3>
+                <div class="btn-group-vertical w-75">
+                    <input type="button" class="btn btn-primary mb-2 home_view_profile_btn" value="Profile" data-function="user_profile">
+                    <input type="button" class="btn btn-primary mb-2 home_view_calc_btn" value="Previous Calculations" data-function="user_profile">
+                    <input type="button" class="btn btn-secondary mb-2 home_view_calc_btn" value="Under Development" data-function="" disabled>
+                </div>
+            </div>
 
-    <hr>
+            <div class="col-md-9">
+                <div class="container mt-4">
+                    {% if previous %}
+                        <h3 class="mb-3">Previous Calculations</h3>
+                        <ul class="list-group">
+                            {% for data in refined_data %}
+                                {% if data.name == "power_triangle" %}
+                                    <li class="list-group-item prev_calc_class"
+                                        name="data_power_triangle"
+                                        data-power-triangle-p="{{ data.power_triangle_P }}"
+                                        data-power-triangle-q="{{ data.power_triangle_Q }}"
+                                        data-power-triangle-s="{{ data.power_triangle_S }}"
+                                        data-power-triangle-pf="{{ data.power_triangle_pf }}"
+                                        data-created-at="{{ data.created_at }}"
+                                        >
+                                        <strong>{{ data.name|title }}</strong>
+                                        <br>
+                                        <span class="m-3">Power Triangle P: 
+                                            <strong>{{ data.power_triangle_P }}</strong>
+                                        </span>
+                                        <span class="m-3">Power Triangle Q: 
+                                            <strong>{{ data.power_triangle_Q }}</strong>
+                                        </span>
+                                        <span class="m-3">Power Triangle S: 
+                                            <strong>{{ data.power_triangle_S }}</strong>
+                                        </span>
+                                        <span class="m-3">Power Triangle PF: 
+                                            <strong>{{ data.power_triangle_pf }}</strong>
+                                        </span>
+                                        <br>
+                                        <small class="m-3">Created On: {{ data.created_at }}</small>
+                                    </li>
+                                {% endif %}
+                                {% if data.name == "phasor" %}
+                                    <li class="list-group-item prev_calc_class"
+                                        name="data_phasor"
+                                        data-V1_magnitude="{{ data.V1_magnitude }}"
+                                        data-V1_angle="{{ data.V1_angle }}"
+                                        data-V2_magnitude="{{ data.V2_magnitude }}"
+                                        data-V2_angle="{{ data.V2_angle }}"
+                                        data-V3_magnitude="{{ data.V3_magnitude }}"
+                                        data-V3_angle="{{ data.V3_angle }}"
+                                        data-created-at="{{ data.created_at }}"
+                                        >
+                                        <strong>{{ data.name|title }}</strong>
+                                        <br>
+                                        <span class="m-3">V1 Magnitude: 
+                                            <strong>{{ data.V1_magnitude }}</strong>
+                                        </span>
+                                        <span class="m-3">V1 Angle: 
+                                            <strong>{{ data.V1_angle }}</strong>
+                                        </span>
+                                        <span class="m-3">V2 Magnitude: 
+                                            <strong>{{ data.V2_magnitude }}</strong>
+                                        </span>
+                                        <span class="m-3">V2 Angle: 
+                                            <strong>{{ data.V2_angle }}</strong>
+                                        </span>
+                                        <span class="m-3">V3 Magnitude: 
+                                            <strong>{{ data.V3_magnitude }}</strong>
+                                        </span>
+                                        <span class="m-3">V3 Angle: 
+                                            <strong>{{ data.V3_angle }}</strong>
+                                        </span>
+                                        <br>
+                                        <small class="m-3">Created On: {{ data.created_at }}</small>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
 
-    <p>Electrical Calculations - <a href="{% url 'calculate' %}">GO</a></p>
+                <div id="calculation-result" class="p-3"></div>
+                
+            </div>
+
+        </div>    
+    </div>
 
 {% endblock %}

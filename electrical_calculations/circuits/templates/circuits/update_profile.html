@@ -1,0 +1,31 @@
+{% extends "circuits/layout.html" %}
+
+{% block body %}
+    <div class="p-4 border container">
+        <h4>Edit Profile</h4>
+        <form action="{% url 'edit_profile' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="bio">First Name</label>
+                <input type="text" class="form-control" id="First_Name" name="First_Name" placeholder="Your First Name">
+            </div>
+            <div class="form-group">
+                <label for="bio">Last Name</label>
+                <input type="text" class="form-control" id="Last_Name" name="Last_Name" placeholder="Your Last Name">
+            </div>
+            <div class="form-group">
+                <label for="bio">Bio</label>
+                <input type="text" class="form-control" id="Bio" name="Bio" placeholder="Your Bio">
+            </div>
+            <div class="form-group">
+                <label for="work">Work</label>
+                <input type="text" class="form-control" id="Work" name="Work" placeholder="Your Work">
+            </div>
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" class="form-control" id="Location" name="Location" placeholder="Your Location">
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Update</button>
+        </form>        
+    </div>
+{% endblock %}

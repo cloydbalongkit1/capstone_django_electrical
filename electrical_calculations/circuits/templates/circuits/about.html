@@ -1,0 +1,85 @@
+{% extends "circuits/layout.html" %}
+
+{% block body %}
+    
+    <header class="py-5 bg-primary text-white text-center">
+        <div class="container">
+            <h1>About Us</h1>
+            <p class="lead">Welcome to Electrical Calculations by <strong>Cloyd</strong>, your trusted partner for precise and reliable electrical calculations. 
+                Based in Philippines, we are dedicated to providing top-notch electrical engineering solutions leveraging advanced algorithms and comprehensive databases.</p>
+        </div>
+    </header>
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-4">Our Story</h2>
+            <p class="text-muted text-center">
+                As an electrical engineer proficient in Python, Django, and JavaScript, 
+                this capstone project is designed to assist practitioners by providing accessible solutions for your electrical problems and needs. 
+                Simply input your data, and our system will take care of the rest, offering you direct support.
+            </p>
+        </div>
+    </section>
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-4">Our Mission</h2>
+            <p class="text-muted text-center">
+                At Electrical Calculation by Cloyd, our mission is to deliver accurate and efficient electrical calculations to support a wide range of engineering projects. 
+                We strive to enhance the safety, reliability, and efficiency of electrical systems through our innovative solutions.
+            </p>
+        </div>
+    </section>
+
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-4">Our Technology</h2>
+            <p class="text-muted text-center">
+                We leverage a robust database and cutting-edge computational tools to deliver precise and reliable results.
+                Our solutions are based on the latest industry standards and best practices, ensuring that your projects are compliant and optimized.
+            </p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="py-5 bg-primary text-white mb-4">
+        <div class="container text-center">
+            <h2>Get in Touch</h2>
+            <p class="mb-4">Have questions? We'd love to hear from you!</p>
+            <a class="btn btn-light contact-information-btn">Contact Us</a>
+        </div>
+        
+    </section>
+
+    <!-- contact form -->
+    <section class="mb-3 contact-information-section" hidden>
+        <div class="p-4 border container">
+            <h4>Contact Us</h4>
+            <form action="" method="post">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" class="form-control" id="subject" placeholder="Enter the subject">
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea class="form-control" id="message" rows="5" placeholder="Enter your message"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">Submit</button>
+            </form>
+        </div>
+    </section>
+
+{% endblock %}
+
+
+
+
+
+        
+

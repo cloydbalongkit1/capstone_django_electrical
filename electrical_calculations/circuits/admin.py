@@ -1,11 +1,11 @@
 from django.contrib import admin
-from .models import User, Circuits
+from .models import User, Calculations
 
 
 admin.site.register(User)
 
 
-@admin.register(Circuits)
+@admin.register(Calculations)
 class CircuitsAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         if not obj.pk:

@@ -8,8 +8,16 @@ urlpatterns = [
 
     path('home', views.home, name='home'),
     path('calculate', views.calculate, name='calculate'),
+    path('about', views.about, name='about'),
+    
+    path('profile_view', views.profile_view, name='profile_view'),
+    path('edit_profile', views.edit_profile, name='edit_profile'),
 
     path('power_triangle', views.power_triangle, name="power_triangle"),
+    path('phasor_diagram', views.phasor_diagram, name="phasor_diagram"),
+
+    path('save_calc', views.save_calc, name='save_calc'),
+    path('user_calculations', views.user_calculations, name='user_calculations'),
 
 
 ]

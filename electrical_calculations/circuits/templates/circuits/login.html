@@ -1,15 +1,32 @@
 {% extends "circuits/layout.html" %}
 
 {% block body %}
-    <h3>Login</h3>
-    
-    <form action="{% url 'user_login' %}" method="post">
-        {% csrf_token %}
-        <input required type="text" name="username" placeholder="Username">
-        <input required type="password" name="password" placeholder="Password">
-        <button type="submit">Submit</button>
-    </form>
-    
-    <p>No account? <a href="{% url 'register' %}">Register</a></p>
-    
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h3 class="text-center">Login</h3>
+                    </div>
+                    <div class="card-body">
+                        <form action="{% url 'user_login' %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group m-3">
+                                <input required type="text" name="username" class="form-control" placeholder="Username">
+                            </div>
+                            <div class="form-group m-3">
+                                <input required type="password" name="password" class="form-control" placeholder="Password">
+                            </div>
+                            <div class="form-group text-center m-3">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer text-center">
+                        <p>No account? <a href="{% url 'register' %}">Register</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

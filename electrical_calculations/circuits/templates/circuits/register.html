@@ -1,17 +1,38 @@
 {% extends "circuits/layout.html" %}
 
 {% block body %}
-    <h3>Register</h3>
-
-    <form action="{% url 'register' %}" method="post">
-        {% csrf_token %}
-        <input required type="text" name="email" placeholder="Email">
-        <input required type="text" name="username" placeholder="Username">
-        <input required type="password" name="password" placeholder="Password" >
-        <input required type="password" name="confirm-password" placeholder="Confirm Password" >
-        <button type="submit">Submit</button>
-    </form>
-
-    <p>Already have account? <a href="{% url 'user_login' %}">Login</a></p>
-
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h3>Register</h3>
+                    </div>
+                    <div class="card-body">
+                        <form action="{% url 'register' %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group m-3">
+                                <input required type="text" name="email" class="form-control" placeholder="Email">
+                            </div>
+                            <div class="form-group m-3">
+                                <input required type="text" name="username" class="form-control" placeholder="Username">
+                            </div>
+                            <div class="form-group m-3">
+                                <input required type="password" name="password" class="form-control" placeholder="Password">
+                            </div>
+                            <div class="form-group m-3">
+                                <input required type="password" name="confirm-password" class="form-control" placeholder="Confirm Password">
+                            </div>
+                            <div class="form-group text-center m-3">
+                                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer text-center">
+                        <p>Already have an account? <a href="{% url 'user_login' %}" class="text-primary">Login</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -2,116 +2,116 @@
 
 {% block body %}
 
-    
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3">
-                <h3>Calculate</h3>
-                <div class="btn-group-vertical">
-                    <a href="{% url 'home' %}" class="mb-3">Home</a>
-                    <input type="button" class="btn btn-primary mb-2 calc_btn" value="Phasor" data-function="phasor">
-                    <input type="button" class="btn btn-primary mb-2 calc_btn" value="Power Triangle" data-function="power_triangle" >
-                    <input type="button" class="btn btn-primary mb-2 calc_btn" value="Bridge Impedance" data-function="bridge_impedance" >
-                    <input type="button" class="btn btn-primary mb-2 calc_btn" value="Short Circuit Current" data-function="short_circuit_current" >
-                    <input type="button" class="btn btn-primary mb-2 calc_btn" value="Phasor Plot" data-function="phasor_plot" >
-                    <input type="button" class="btn btn-primary mb-2 calc_btn" value="Fault" data-function="fault" >
-                    <input type="button" class="btn btn-primary mb-2 calc_btn" value="RLC Circuits" data-function="rlc_circuits" >
-                    <input type="button" class="btn btn-primary mb-2 calc_btn" value="Voltage Drop" data-function="voltage_drop" >
-                </div>
+<div class="container mt-1 mb-4">
+    <div class="row">
+        <div class="col-md-3">
+            <h3>Calculate</h3>
+            <div class="btn-group-vertical w-75">
+                <input type="button" class="btn btn-primary mb-2 calc_btn" value="Power Triangle" data-function="power_triangle">
+                <input type="button" class="btn btn-primary mb-2 calc_btn" value="Phasor" data-function="phasor">
+                <input type="button" class="btn btn-secondary mb-2 calc_btn" value="Under Development" data-function="" disabled>
             </div>
-            <div class="col-md-9">
-                {% if error %}
+        </div>
+        
+        
+        <div class="col-md-9">
+            
+            {% if error %}
+                <div class="alert alert-danger">
+                    <small>{{ error }}</small>
+                </div>
+            {% endif %}
+            
+            <div id="alert-container"></div>
+            <!-- Message alert -->
+            
+            <div class="power_triangle border p-3" hidden>
+                <h4>Power Triangle</h4>
+                <small>Note: You can provide 2 inputs. (P-Q or S-pf)</small>
+                <form action="{% url 'power_triangle' %}" method="post" class="mt-3 calculate_form">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <input type="number" class="form-control" name="power_triangle_P" placeholder="P">
+                    </div>
+                    <div class="mb-3">
+                        <input type="number" class="form-control" name="power_triangle_Q" placeholder="Q">
+                    </div>
+                    <div class="mb-3">
+                        <input type="number" class="form-control" name="power_triangle_S" placeholder="S">
+                    </div>
+                    <div class="mb-3">
+                        <input type="number" class="form-control" name="power_triangle_pf" placeholder="Power factor (e.g., 0.8)" step="0.01">
+                    </div>
+                    <button type="submit" class="btn btn-success">Calculate</button>
+                </form>
+            </div>
+
+            <div class="phasor border p-3" hidden>
+                <h4>Phasor Diagram</h4>
+                <form action="{% url 'phasor_diagram' %}" method="post" class="mt-3 calculate_form">
+                    {% csrf_token %}
                     <div>
-                        <small>{{ error }}</small>
+                        <h4>V1</h4>
+                        <div class="mb-3">
+                            <input type="number" class="form-control" name="V1_magnitude" placeholder="Magnitude 1">
+                        </div>
+                        <div class="mb-3">
+                            <input type="number" class="form-control" name="V1_angle" placeholder="Angle 1">
+                        </div>
+                    </div>
+                    <div>
+                        <h4>V2</h4>
+                        <div class="mb-3">
+                            <input type="number" class="form-control" name="V2_magnitude" placeholder="Magnitude 2">
+                        </div>
+                        <div class="mb-3">
+                            <input type="number" class="form-control" name="V2_angle" placeholder="Angle 2">
+                        </div>
+                    </div>
+                    <div>
+                        <h4>V3</h4>
+                        <div class="mb-3">
+                            <input type="number" class="form-control" name="V3_magnitude" placeholder="Magnitude 3">
+                        </div>
+                        <div class="mb-3">
+                            <input type="number" class="form-control" name="V3_angle" placeholder="Angle 3">
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-success">Calculate</button>
+                </form>
+            </div>
+            
+
+            <div id="output" class="mt-4">
+                {% if display %}
+                    <div class="power_triangle_output border p-3">
+
+                        {% if power_triangle %}
+                            <div class="px-4">
+                                <div hidden id="show-output-data" data-show-output="{{ show_output }}"></div>
+                                <div hidden id="output-input-datas" data-show-values="{{ values }}"></div>
+                                <img src="data:image/png;base64,{{ plot_image }}" alt="Power Triangle Plot" class="img-fluid">
+                            </div>
+                        {% endif %}
+
+                        {% if phasor_diagram %}
+                            <div class="px-4">
+                                <div hidden id="show-output-data" data-show-output="{{ show_output }}"></div>
+                                <div hidden id="output-input-datas" data-show-values="{{ values }}"></div>
+                                <img src="data:image/png;base64,{{ plot_image }}" alt="Phsor Diagram Plot" class="img-fluid">
+                            </div>
+                        {% endif %}
+                        
+
+                        <form class="mt-3 save_calculation_form">
+                            <button id="save_calculation_button" class="btn btn-success">Save</button>
+                        </form>
                     </div>
                 {% endif %}
-                <div hidden class="phasor">
-                    <h4>Phasor</h4>
-                    <form action="" method="post">
-                        {% csrf_token %}
-                        <input type="number" name="phasor_magnitude" placeholder="magnitude">
-                        <input type="number" name="phasor_angle" placeholder="angle">
-                        <button>Calculate</button>
-                    </form>
-                </div>
-                <div hidden class="power_triangle">
-                    <h4>Power Triangle</h4>
-                    <small>Note: You can provide 2 inputs. (P-Q or S-pf)</small>
-                    <form action="{% url 'power_triangle' %}" method="post" class="mt-2">
-                        {% csrf_token %}
-                        <input type="number" name="power_triangle_P" placeholder="P">
-                        <input type="number" name="power_triangle_Q" placeholder="Q">
-                        <input type="number" name="power_triangle_S" placeholder="S">
-                        <input type="number" name="power_triangle_pf" placeholder="Power factor (e.g., 0.8)" step="0.01">
-                        <button>Calculate</button>
-                    </form>
-                </div>
-                <div hidden class="bridge_impedance">
-                    <h4>Bridge Impedance</h4>
-                    <form action="">
-                        {% csrf_token %}
-                        <input type="number" name="z1" placeholder="z1">
-                        <input type="number" name="z2" placeholder="z2">
-                        <input type="number" name="z3" placeholder="z3">
-                        <input type="number" name="z4" placeholder="z4">
-                        <input type="number" name="z5" placeholder="z5">
-                        <button>Calculate</button>                        
-                    </form>
-                </div>
-                <div hidden class="short_circuit_current">
-                    <h4>Short Circuit Current</h4>
-                    <form action="">
-                        {% csrf_token %}
-                        <input type="number" name="scc_voltage" placeholder="Absolute Voltage">
-                        <input type="text" name="scc_complex_value_impedance" placeholder="Complex Value Impedance">
-                        <input type="text" name="scc_max_current" value="True" placeholder="Max Current(True/False)">
-                        <button>Calculate</button>
-                    </form>
-                </div>
-                <div hidden class="phasor_plot">
-                    <h4>Phasor Plot</h4>
-                    <form action="">
-                        {% csrf_token %}
-                        <input type="text" name="phasor_plot_A" placeholder="Mag,Angle (1,60)">
-                        <input type="text" name="phasor_plot_B" placeholder="Mag,Angle (1,180)">
-                        <input type="text" name="phasor_plot_C" placeholder="Mag,Angle (1,300)">
-                        <button>Plot</button>
-                    </form>
-                </div>
-                <div hidden class="fault">
-                    <h4>Fault</h4>
-                    <form action="">
-                        {% csrf_token %}
-                        
-                    </form>
-                </div>
-                <div hidden class="rlc_circuits">
-                    <h4>RLC Circuits</h4>
-                    <form action="">
-                        {% csrf_token %}
-                        
-                    </form>
-                </div>
-                <div hidden class="voltage_drop">
-                    <h4>Voltage Drop</h4>
-                    <form action="">
-                        {% csrf_token %}
-                        
-                    </form>
-                </div>
-
-                <div id="output">
-                    {% if display %}
-                        <div class="power_triangle_output">
-                            <div hidden id="show-output-data"  data-show-output="{{ show_output }}"></div>
-                            <div hidden id="output-input-datas"  data-show-values="{{ values }}"></div>
-                            
-                            <img src="data:image/png;base64,{{ plot_image }}" alt="Power Triangle Plot">
-                        </div>
-                    {% endif %}
-                </div>                
             </div>
         </div>
     </div>
+</div>
 
 {% endblock %}
