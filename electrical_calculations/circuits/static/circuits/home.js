@@ -1,8 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     viewPreviousCalculations();
-    dataPowerTriangleClick();
+    prevCalcClassClick();
     profileView();
+    deleteButtonPrevPost();
 
 })
 
@@ -22,44 +23,19 @@ function profileView() {
 
 
 
-function dataPowerTriangleClick() {
-    const dataPowerTriangleDiv = document.querySelectorAll(".prev_calc_class");
+function prevCalcClassClick() {
+    const previousCalcDiv = document.querySelectorAll(".prev_calc_class");
 
-    // no phasor ----> add phasor
-    if (dataPowerTriangleDiv) {
-        dataPowerTriangleDiv.forEach(item => {            
+    if (previousCalcDiv) {
+        previousCalcDiv.forEach(item => {
             item.addEventListener('click', () => {
+                // const name = item.getAttribute('name');
+                const calculated = item.getAttribute("data_calculation_img");
+                const calculationResult = document.getElementById("calculation-result");
 
-                console.log(item.getAttribute('name')); // checking what is the clicked item by attribute (name)
-                // conditional and to be continue
+                calculationResult.innerHTML = `<h3 class="mt-4">Output</h3><img src="data:image/png;base64,${calculated}" alt="Diagram Image">`;
+                calculationResult.classList.remove("hidden");
 
-                const P = item.getAttribute("data-power-triangle-p");
-                const Q = item.getAttribute("data-power-triangle-q");
-                const S = item.getAttribute("data-power-triangle-s");
-                const pf = item.getAttribute("data-power-triangle-pf");
-
-                const formData = new FormData();
-                formData.append('power_triangle_P', P);
-                formData.append('power_triangle_Q', Q);
-                formData.append('power_triangle_S', S);
-                formData.append('power_triangle_pf', pf);
-
-                fetch("/power_triangle", {
-                    method: "POST",
-                    body: formData,
-                    headers: {
-                        'X-CSRFToken': document.querySelector('meta[name="csrf-token-meta"]').getAttribute('content'),
-                        'fromJS': 'fromJS',
-                    }
-                })
-                .then(response => response.text())  // Get the HTML response
-                .then(html => {             
-                    document.getElementById('calculation-result').innerHTML = html;
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    alert("There was an error processing the request.");
-                });
             });
         });
     }
@@ -77,3 +53,41 @@ function viewPreviousCalculations() {
     }
 }
 
+
+function deleteButtonPrevPost() {
+    const csrfTokenMeta = document.querySelector('meta[name="csrf-token-meta"]').content;
+
+    const deleteButtonPrevPost = document.querySelectorAll(".deleteButtonPrevPost");
+    deleteButtonPrevPost.forEach((delBtn) => {    
+        const delBtnId = delBtn.getAttribute('data-post-id-delete');
+        delBtn.addEventListener('click', (event) => {
+            event.preventDefault();
+
+            fetch(`/delete_previous_calc/${delBtnId}`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfTokenMeta,
+                },
+            })
+            .then(reponse => reponse.json())
+            .then(data => {
+                
+                if (data.message) {
+                    alert(data.message); 
+                    delBtn.closest('li').remove();
+
+                } else if (data.error) {
+                    alert(data.error);  
+                }
+
+            })
+            .catch(error => {
+                console.error(error);
+                alert("An error occurred while deleting!");
+            })
+            
+        })
+    })
+    
+}

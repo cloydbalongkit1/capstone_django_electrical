@@ -17,68 +17,64 @@
                 <div class="container mt-4">
                     {% if previous %}
                         <h3 class="mb-3">Previous Calculations</h3>
-                        <ul class="list-group">
+                        <ul class="list-group mb-4">
                             {% for data in refined_data %}
                                 {% if data.name == "power_triangle" %}
-                                    <li class="list-group-item prev_calc_class"
-                                        name="data_power_triangle"
-                                        data-power-triangle-p="{{ data.power_triangle_P }}"
-                                        data-power-triangle-q="{{ data.power_triangle_Q }}"
-                                        data-power-triangle-s="{{ data.power_triangle_S }}"
-                                        data-power-triangle-pf="{{ data.power_triangle_pf }}"
-                                        data-created-at="{{ data.created_at }}"
-                                        >
-                                        <strong>{{ data.name|title }}</strong>
-                                        <br>
-                                        <span class="m-3">Power Triangle P: 
-                                            <strong>{{ data.power_triangle_P }}</strong>
-                                        </span>
-                                        <span class="m-3">Power Triangle Q: 
-                                            <strong>{{ data.power_triangle_Q }}</strong>
-                                        </span>
-                                        <span class="m-3">Power Triangle S: 
-                                            <strong>{{ data.power_triangle_S }}</strong>
-                                        </span>
-                                        <span class="m-3">Power Triangle PF: 
-                                            <strong>{{ data.power_triangle_pf }}</strong>
-                                        </span>
-                                        <br>
-                                        <small class="m-3">Created On: {{ data.created_at }}</small>
+                                    <li class="list-group-item">
+                                        <div class="prev_calc_class" name="data_power_triangle" data_calculation_img="{{ data.data_calculation_img }}">
+                                            <strong>{{ data.name|title }}</strong>
+                                            <br>
+                                            <span class="m-3">Power Triangle P: 
+                                                <strong>{{ data.power_triangle_P }}</strong>
+                                            </span>
+                                            <span class="m-3">Power Triangle Q: 
+                                                <strong>{{ data.power_triangle_Q }}</strong>
+                                            </span>
+                                            <span class="m-3">Power Triangle S: 
+                                                <strong>{{ data.power_triangle_S }}</strong>
+                                            </span>
+                                            <span class="m-3">Power Triangle PF: 
+                                                <strong>{{ data.power_triangle_pf }}</strong>
+                                            </span>
+                                            <br>
+                                            <small class="m-3">Created On: {{ data.created_at }}</small>
+                                        </div>
+                                        <button class="btn btn-danger btn-sm mt-2 ml-3 deleteButtonPrevPost" data-post-id-delete="{{ data.id }}">
+                                            Delete
+                                        </button>
                                     </li>
                                 {% endif %}
                                 {% if data.name == "phasor" %}
-                                    <li class="list-group-item prev_calc_class"
-                                        name="data_phasor"
-                                        data-V1_magnitude="{{ data.V1_magnitude }}"
-                                        data-V1_angle="{{ data.V1_angle }}"
-                                        data-V2_magnitude="{{ data.V2_magnitude }}"
-                                        data-V2_angle="{{ data.V2_angle }}"
-                                        data-V3_magnitude="{{ data.V3_magnitude }}"
-                                        data-V3_angle="{{ data.V3_angle }}"
-                                        data-created-at="{{ data.created_at }}"
-                                        >
-                                        <strong>{{ data.name|title }}</strong>
-                                        <br>
-                                        <span class="m-3">V1 Magnitude: 
-                                            <strong>{{ data.V1_magnitude }}</strong>
-                                        </span>
-                                        <span class="m-3">V1 Angle: 
-                                            <strong>{{ data.V1_angle }}</strong>
-                                        </span>
-                                        <span class="m-3">V2 Magnitude: 
-                                            <strong>{{ data.V2_magnitude }}</strong>
-                                        </span>
-                                        <span class="m-3">V2 Angle: 
-                                            <strong>{{ data.V2_angle }}</strong>
-                                        </span>
-                                        <span class="m-3">V3 Magnitude: 
-                                            <strong>{{ data.V3_magnitude }}</strong>
-                                        </span>
-                                        <span class="m-3">V3 Angle: 
-                                            <strong>{{ data.V3_angle }}</strong>
-                                        </span>
-                                        <br>
-                                        <small class="m-3">Created On: {{ data.created_at }}</small>
+                                    <li class="list-group-item">
+                                        <div class="prev_calc_class" name="data_phasor" data_calculation_img="{{ data.data_calculation_img }}">
+                                            <strong>{{ data.name|title }}</strong>
+                                            <br>
+                                            <span class="m-3">V1 Magnitude: 
+                                                <strong>{{ data.V1_magnitude }}</strong>
+                                            </span>
+                                            <span class="m-3">V1 Angle: 
+                                                <strong>{{ data.V1_angle }}</strong>
+                                            </span>
+                                            <span class="m-3">V2 Magnitude: 
+                                                <strong>{{ data.V2_magnitude }}</strong>
+                                            </span>
+                                            <span class="m-3">V2 Angle: 
+                                                <strong>{{ data.V2_angle }}</strong>
+                                            </span>
+                                            <span class="m-3">V3 Magnitude: 
+                                                <strong>{{ data.V3_magnitude }}</strong>
+                                            </span>
+                                            <span class="m-3">V3 Angle: 
+                                                <strong>{{ data.V3_angle }}</strong>
+                                            </span>
+                                            <br>
+                                            <small class="m-3">Created On: {{ data.created_at }}</small>
+                                        </div>
+                                        <div>
+                                            <button class="btn btn-danger btn-sm mt-2 ml-3 deleteButtonPrevPost" data-post-id-delete="{{ data.id }}">
+                                                Delete
+                                            </button>
+                                        </div>
                                     </li>
                                 {% endif %}
                             {% endfor %}
@@ -86,8 +82,8 @@
                     {% endif %}
                 </div>
 
-                <div id="calculation-result" class="p-3"></div>
-                
+                <div id="calculation-result" class="p-3 my-3 hidden"></div>
+
             </div>
 
         </div>    

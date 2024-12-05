@@ -19,5 +19,7 @@ urlpatterns = [
     path('save_calc', views.save_calc, name='save_calc'),
     path('user_calculations', views.user_calculations, name='user_calculations'),
 
+    path('delete_previous_calc/<int:id>', views.delete_previous_calc, name='delete_previous_calc'),
+
 
 ]

@@ -27,10 +27,11 @@ function saveCalculations() {
 
         const calculateFrom = document.querySelectorAll(".calculate_form");
         const csrfTokenMeta = document.querySelector('meta[name="csrf-token-meta"]');
+
         let selectedForm;
         let classNameTarget
 
-        calculateFrom.forEach( (form) => {
+        calculateFrom.forEach((form) => {
             const parentDiv = form.closest('div');
             if (!parentDiv.hasAttribute('hidden') && window.getComputedStyle(parentDiv).display !== 'none') {   //recommended as && not ||
                 selectedForm = parentDiv;
@@ -48,6 +49,8 @@ function saveCalculations() {
 
             if (csrfTokenMeta) {
                 const csrfToken = csrfTokenMeta.content;
+                const elementImg = document.querySelector('div[data-diagram-img]');
+                const imgBase64 = elementImg.getAttribute('data-diagram-img');
 
                 fetch('/save_calc', {
                     method: "POST",
@@ -57,7 +60,8 @@ function saveCalculations() {
                     },
                     body: JSON.stringify({
                         body: inputValues, 
-                        name: classNameTarget
+                        name: classNameTarget,
+                        imgBase64: imgBase64
                     }),
                 })
                 .then(response => response.json())

@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect, get_object_or_404, HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 from django.db import IntegrityError
 from django.urls import reverse
 from django.http import JsonResponse
@@ -134,17 +135,8 @@ def power_triangle(request):
 
             json_values = json.dumps(values)
 
-            if request.headers.get('fromJS') == 'fromJS': #from JS (previous computations)
-                return render(request, "circuits/partial_output.html", {
-                    "plot_image": image_base64,
-                    "display": True,
-                    "show_output": 'true',
-                    "values": json_values,
-                    "title": "Calculate Result"
-                })
-
             return render(request, "circuits/calculate.html", {
-                    "plot_image": image_base64, 
+                    "plot_image": image_base64, # save the plot image database (todo!)
                     "display": True, 
                     "show_output": 'true', # used in JS
                     "values": json_values,
@@ -163,6 +155,15 @@ def power_triangle(request):
     #     "title": "Calculate"
     #     })
 
+    # if request.headers.get('fromJS') == 'fromJS': #from JS (previous computations)
+            #     return render(request, "circuits/partial_output.html", {
+            #         "plot_image": image_base64,
+            #         "display": True,
+            #         "show_output": 'true',
+            #         "values": json_values,
+            #         "title": "Calculate Result"
+            #     })
+
 
 
 @login_required
@@ -171,6 +172,7 @@ def save_calc(request):
         try:
             datas = json.loads(request.body)
             name = datas.get("name")
+            # imgBase64 = datas.get("imgBase64")
             data_body = datas.get("body")
             data_body.pop('csrfmiddlewaretoken', None)
             
@@ -210,18 +212,21 @@ def user_calculations(request):
         if context == "power_triangle":
             refined_data.append(
                 {
+                    "id": obj["pk"],
                     "name": obj["fields"].get("name") or "Unknown",
                     "power_triangle_P": json.loads(obj["fields"]["datas"]).get("body", {}).get("power_triangle_P") or 0,
                     "power_triangle_Q": json.loads(obj["fields"]["datas"]).get("body", {}).get("power_triangle_Q") or 0,
                     "power_triangle_S": json.loads(obj["fields"]["datas"]).get("body", {}).get("power_triangle_S") or 0,
                     "power_triangle_pf": json.loads(obj["fields"]["datas"]).get("body", {}).get("power_triangle_pf") or 0,
                     "created_at": datetime.strptime(obj["fields"].get("created_at"), "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y/%m/%d - %H:%M"),
+                    "data_calculation_img": json.loads(obj["fields"]["datas"]).get("imgBase64") or 0,
                 } 
             )
 
         if context == "phasor":
             refined_data.append(
                 {
+                    "id": obj["pk"],
                     "name": obj["fields"].get("name") or "Unknown",
                     "V1_magnitude": json.loads(obj["fields"]["datas"]).get("body", {}).get("V1_magnitude") or 0,
                     "V1_angle": json.loads(obj["fields"]["datas"]).get("body", {}).get("V1_angle") or 0,
@@ -230,10 +235,10 @@ def user_calculations(request):
                     "V3_magnitude": json.loads(obj["fields"]["datas"]).get("body", {}).get("V3_magnitude") or 0,
                     "V3_angle": json.loads(obj["fields"]["datas"]).get("body", {}).get("V3_angle") or 0,
                     "created_at": datetime.strptime(obj["fields"].get("created_at"), "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y/%m/%d - %H:%M"),
+                    "data_calculation_img": json.loads(obj["fields"]["datas"]).get("imgBase64") or 0,
                 }
             )
-        
-    
+
     return render(request, "circuits/home.html", {
             "title": "Previous Calculations", 
             "refined_data": refined_data, 
@@ -349,4 +354,20 @@ def phasor_diagram(request):
                 "error": "Invalid input. Please ensure all values are numbers.",
                 "title": "Error"
             })
+
+
+
+@require_POST
+@login_required
+def delete_previous_calc(request, id):
+    try:
+        obj_prev = get_object_or_404(Calculations, id=id)
+        obj_prev.delete()
+
+        return JsonResponse({"message": "Deleted successfully!"}, status=200)
     
+    except Calculations.DoesNotExist:
+        return JsonResponse({"error": "Item not found!"}, status=404)
+    
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)

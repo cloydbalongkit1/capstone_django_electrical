@@ -89,14 +89,16 @@
 
                         {% if power_triangle %}
                             <div class="px-4">
+                                <div hidden data-diagram-img="{{ plot_image }}"></div>
                                 <div hidden id="show-output-data" data-show-output="{{ show_output }}"></div>
                                 <div hidden id="output-input-datas" data-show-values="{{ values }}"></div>
                                 <img src="data:image/png;base64,{{ plot_image }}" alt="Power Triangle Plot" class="img-fluid">
                             </div>
                         {% endif %}
 
-                        {% if phasor_diagram %}
+                        {% if phasor_diagram %} 
                             <div class="px-4">
+                                <div hidden data-diagram-img="{{ plot_image }}"></div>
                                 <div hidden id="show-output-data" data-show-output="{{ show_output }}"></div>
                                 <div hidden id="output-input-datas" data-show-values="{{ values }}"></div>
                                 <img src="data:image/png;base64,{{ plot_image }}" alt="Phsor Diagram Plot" class="img-fluid">
