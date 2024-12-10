@@ -7,9 +7,11 @@
             <div class="col-md-3">
                 <h3>Home</h3>
                 <div class="btn-group-vertical w-75">
-                    <input type="button" class="btn btn-primary mb-2 home_view_profile_btn" value="Profile" data-function="user_profile">
-                    <input type="button" class="btn btn-primary mb-2 home_view_calc_btn" value="Previous Calculations" data-function="user_profile">
-                    <input type="button" class="btn btn-secondary mb-2 home_view_calc_btn" value="Under Development" data-function="" disabled>
+                    <input type="button" class="btn btn-primary mb-2 home_view_profile_btn" value="Profile" title="View your profile.">
+                    <input type="button" class="btn btn-primary mb-2 home_view_subscribe_btn" value="Subscribe" title="Subscribe for more functionality!">
+                    <input type="button" class="btn btn-primary mb-2 home_view_calc_btn" value="Previous Calculations" title="See your previous calculations on this web app!">
+                    <input type="button" class="btn btn-primary mb-2 home_view_help_btn" value="Help" title="Share your real problems here to get help from the community!">
+                    <input type="button" class="btn btn-secondary mb-2 home_view_dev_btn" value="For More Features" disabled>
                 </div>
             </div>
 
@@ -24,20 +26,20 @@
                                         <div class="prev_calc_class" name="data_power_triangle" data_calculation_img="{{ data.data_calculation_img }}">
                                             <strong>{{ data.name|title }}</strong>
                                             <br>
-                                            <span class="m-3">Power Triangle P: 
+                                            <span class="m-2">Power Triangle P: 
                                                 <strong>{{ data.power_triangle_P }}</strong>
                                             </span>
-                                            <span class="m-3">Power Triangle Q: 
+                                            <span class="m-2">Power Triangle Q: 
                                                 <strong>{{ data.power_triangle_Q }}</strong>
                                             </span>
-                                            <span class="m-3">Power Triangle S: 
+                                            <span class="m-2">Power Triangle S: 
                                                 <strong>{{ data.power_triangle_S }}</strong>
                                             </span>
-                                            <span class="m-3">Power Triangle PF: 
+                                            <span class="m-2">Power Triangle PF: 
                                                 <strong>{{ data.power_triangle_pf }}</strong>
                                             </span>
                                             <br>
-                                            <small class="m-3">Created On: {{ data.created_at }}</small>
+                                            <small class="m-2">Created On: {{ data.created_at }}</small>
                                         </div>
                                         <button class="btn btn-danger btn-sm mt-2 ml-3 deleteButtonPrevPost" data-post-id-delete="{{ data.id }}">
                                             Delete
@@ -49,26 +51,26 @@
                                         <div class="prev_calc_class" name="data_phasor" data_calculation_img="{{ data.data_calculation_img }}">
                                             <strong>{{ data.name|title }}</strong>
                                             <br>
-                                            <span class="m-3">V1 Magnitude: 
+                                            <span class="m-2">V1 Magnitude: 
                                                 <strong>{{ data.V1_magnitude }}</strong>
                                             </span>
-                                            <span class="m-3">V1 Angle: 
+                                            <span class="m-2">V1 Angle: 
                                                 <strong>{{ data.V1_angle }}</strong>
                                             </span>
-                                            <span class="m-3">V2 Magnitude: 
+                                            <span class="m-2">V2 Magnitude: 
                                                 <strong>{{ data.V2_magnitude }}</strong>
                                             </span>
-                                            <span class="m-3">V2 Angle: 
+                                            <span class="m-2">V2 Angle: 
                                                 <strong>{{ data.V2_angle }}</strong>
                                             </span>
-                                            <span class="m-3">V3 Magnitude: 
+                                            <span class="m-2">V3 Magnitude: 
                                                 <strong>{{ data.V3_magnitude }}</strong>
                                             </span>
-                                            <span class="m-3">V3 Angle: 
+                                            <span class="m-2">V3 Angle: 
                                                 <strong>{{ data.V3_angle }}</strong>
                                             </span>
                                             <br>
-                                            <small class="m-3">Created On: {{ data.created_at }}</small>
+                                            <small class="m-2">Created On: {{ data.created_at }}</small>
                                         </div>
                                         <div>
                                             <button class="btn btn-danger btn-sm mt-2 ml-3 deleteButtonPrevPost" data-post-id-delete="{{ data.id }}">
@@ -78,14 +80,49 @@
                                     </li>
                                 {% endif %}
                             {% endfor %}
+
+                            <nav aria-label="Page navigation example" class="mt-4">
+                                <ul class="pagination justify-content-center">
+                                    {% if refined_data.has_previous %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ refined_data.previous_page_number }}" aria-label="Previous">Previous</a>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item disabled">
+                                            <span class="page-link">Previous</span>
+                                        </li>
+                                    {% endif %}
+                                    {% for page_num in refined_data.paginator.page_range %}
+                                        {% if page_num == refined_data.number %}
+                                            <li class="page-item active" aria-current="page">
+                                                <span class="page-link">{{ page_num }}</span>
+                                            </li>
+                                        {% else %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if refined_data.has_next %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ refined_data.next_page_number }}" aria-label="Next">Next</a>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item disabled">
+                                            <span class="page-link">Next</span>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+
                         </ul>
                     {% endif %}
                 </div>
 
-                <div id="calculation-result" class="p-3 my-3 hidden"></div>
-
+                <div id="calculation-result" class="p-3 m-3 hidden border border-secondary rounded">
+                </div>
+                
             </div>
-
         </div>    
     </div>
 

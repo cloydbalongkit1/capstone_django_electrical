@@ -28,6 +28,6 @@ class Calculations(models.Model):
 
     def __str__(self):
         return f"Created_by: {str(self.created_by).title()} >>> Calc_name: {self.name.title()} >>> ID: {self.pk}"
-
-
     
+
+

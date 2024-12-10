@@ -1,0 +1,159 @@
+{% extends "circuits/layout.html" %}
+
+
+{% block body %}
+
+<div class="d-flex justify-content-center align-items-center">
+    <div class="card shadow-lg p-4" style="width: 100%; max-width: 400px; border-radius: 15px; background-color: #ffffff;">
+        {% if has_subscription == "active" %}
+            <h4 class="mb-3 text-center text-success">Subscription Active</h4>
+            <p class="text-center text-muted">
+                {% if subscription_status == "incomplete" %}
+                    Trial Version within - 7 days.
+                {% endif %}
+            </p>
+            <button id="cancel-button" class="btn btn-danger btn-block">Cancel Subscription</button>
+        {% else %}
+            <h4 class="mb-3 text-center text-primary">7-Day Free Trial</h4>
+            <p class="text-center text-muted">
+                Start your 7-day free trial today! Enter your payment details below to ensure uninterrupted service after the trial ends.
+            </p>
+            <hr class="my-4" style="border-top: 1px solid #ddd;">
+            <div id="card-element" class="p-3 border rounded mb-3 shadow-sm" style="background-color: #f8f9fa;"></div>
+            <div id="card-errors" role="alert" class="text-danger mb-3 text-center"></div>
+            <button id="pay-button" class="btn btn-primary btn-block btn-lg shadow">Pay $10</button>
+        {% endif %}
+    </div>
+</div>
+
+    <script>
+
+        const stripe = Stripe('{{ stripe_public_key }}');
+        const elements = stripe.elements();
+        const card = elements.create('card');
+
+        const cardElement = document.getElementById("card-element");
+        if (cardElement) {
+            card.mount('#card-element');
+        }
+
+    
+
+        const urls = {
+            createSubscription: "{% url 'create_subscription' %}",
+            finalizeSubscription: "{% url 'finalize_subscription' %}",
+            cancelSubscription: "{% url 'cancel_subscription' %}",
+        };
+
+        // Reusable function to finalize subscription
+        const finalizeSubscription = async (subscriptionId, paymentStatus) => {
+            try {
+                const response = await fetch(urls.finalizeSubscription, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": "{{ csrf_token }}",
+                    },
+                    body: JSON.stringify({ subscriptionId, paymentStatus }),
+                });
+            
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || "Failed to finalize subscription.");
+                }
+            
+                const data = await response.json();
+                alert(data.message || "Subscription activated successfully!");
+                location.reload(); // Reload to reflect updated subscription status
+            } catch (error) {
+                console.error("Error finalizing subscription:", error);
+                alert(`Error: ${error.message}`);
+            }
+        };
+
+        // Payment Button Logic
+        const payButton = document.getElementById('pay-button');
+        if (payButton) {
+            payButton.addEventListener('click', async () => {
+                payButton.textContent = 'Processing...';
+                payButton.disabled = true;
+            
+                try {
+                    const response = await fetch(urls.createSubscription, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRFToken": "{{ csrf_token }}",
+                        },
+                    });
+                
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.error || "Failed to create subscription.");
+                    }
+                
+                    const { clientSecret, subscriptionId } = await response.json();
+                
+                    const result = await stripe.confirmCardPayment(clientSecret, {
+                        payment_method: { card },
+                    });
+                
+                    if (result.error) {
+                        throw new Error(result.error.message);
+                    } else if (result.paymentIntent.status === 'succeeded') {
+                        await finalizeSubscription(subscriptionId, result.paymentIntent.status);
+                    }
+                } catch (error) {
+                    console.error("Error during payment process:", error);
+                    alert(`Error: ${error.message}`);
+                } finally {
+                    payButton.textContent = 'Pay $10';
+                    payButton.disabled = false;
+                }
+            });
+        }
+
+        // Cancel Button Logic
+        const cancelButton = document.getElementById('cancel-button');   
+
+        if (cancelButton) {
+            cancelButton.addEventListener('click', async () => {
+                if (confirm('Are you sure you want to cancel your subscription?')) {
+                    cancelButton.disabled = true;
+                    cancelButton.textContent = 'Cancelling...';
+                
+                    try {
+                        const response = await fetch(urls.cancelSubscription, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRFToken": "{{ csrf_token }}",
+                            },
+                        });
+                    
+                        const data = await response.json();
+                    
+                        if (response.ok) {
+                            alert(data.message);
+                            location.reload();
+                        } else {
+                            throw new Error(data.error || "Failed to cancel subscription.");
+                        }
+                    } catch (error) {
+                        console.error("Error during cancellation:", error);
+                        alert(`Error: ${error.message}`);
+                    } finally {
+                        cancelButton.disabled = false;
+                        cancelButton.textContent = 'Cancel Subscription';
+                    }
+                }
+            });
+        }
+
+
+
+    </script>
+    
+
+{% endblock %}
+

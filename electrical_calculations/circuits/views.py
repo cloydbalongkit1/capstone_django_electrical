@@ -2,12 +2,16 @@ from django.shortcuts import render, HttpResponseRedirect, get_object_or_404, Ht
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
+from django.core.paginator import Paginator
 from django.db import IntegrityError
 from django.urls import reverse
 from django.http import JsonResponse
 from django.core.serializers import serialize
 
 from .models import User, Calculations
+from electrical_calculations import settings
+
+from payments.models import Subscription # ---------> use to determine if the user is subscribed or not
 
 from datetime import datetime
 from electricpy import visu, phasors
@@ -17,6 +21,7 @@ import matplotlib
 import io
 import base64
 import json
+
 
 matplotlib.use('Agg')
 
@@ -40,12 +45,10 @@ def user_login(request):
     return render(request, "circuits/login.html", {"title": "Login"})
 
 
-
 @login_required
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse("user_login"))
-
 
 
 def register(request):
@@ -150,19 +153,6 @@ def power_triangle(request):
                 "title": "Error"
                 })
 
-    # return render(request, "circuits/calculate.html", {
-    #     "display": True,
-    #     "title": "Calculate"
-    #     })
-
-    # if request.headers.get('fromJS') == 'fromJS': #from JS (previous computations)
-            #     return render(request, "circuits/partial_output.html", {
-            #         "plot_image": image_base64,
-            #         "display": True,
-            #         "show_output": 'true',
-            #         "values": json_values,
-            #         "title": "Calculate Result"
-            #     })
 
 
 
@@ -239,9 +229,17 @@ def user_calculations(request):
                 }
             )
 
+    page = request.GET.get("page", 1)
+    paginator = Paginator(refined_data, 3)  
+
+    try:
+        refined_data_page = paginator.page(page)
+    except:
+        refined_data_page = paginator.page(1) 
+
     return render(request, "circuits/home.html", {
             "title": "Previous Calculations", 
-            "refined_data": refined_data, 
+            "refined_data": refined_data_page, 
             "previous": True
         })
 
@@ -330,16 +328,6 @@ def phasor_diagram(request):
 
             plt.close()
 
-            # for JS in looking back post
-            if request.headers.get('fromJS') == 'fromJS':  
-                return render(request, "circuits/partial_output.html", {
-                    "plot_image": plot_image,
-                    "display": True,
-                    "show_output": 'true',
-                    "values": json_values,
-                    "title": "Phasor Diagram"
-                })
-
             return render(request, "circuits/calculate.html", {
                 "title": "Phasor Diagram",
                 "display": True,
@@ -371,3 +359,20 @@ def delete_previous_calc(request, id):
     
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
+    
+
+
+
+@login_required
+def help_solve(request):
+    """
+    This feature will be under development for future. (Dont have much time!)
+    
+    Feature: This is like a Stack-Overflow - application. 
+    
+    All electrical problems, forums will be raised.
+    All users can comment, teach, recommend for the problem's solutions.
+
+    """
+    
+    return HttpResponse("<h1>help and solve</h1> <br> <h4>Under Development</h4>")

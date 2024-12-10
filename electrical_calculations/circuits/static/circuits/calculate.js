@@ -3,6 +3,10 @@ document.addEventListener('DOMContentLoaded', () => {
     clickCalculateButton();
     showCalculatedForm();
     saveCalculations();
+
+    voltageCalculate();
+    currentCalculate();
+    resistanceCalculate();
     
 })
 
@@ -166,7 +170,7 @@ function showCalculatedForm() {
 function clickCalculateButton() {
     document.querySelectorAll('.calc_btn').forEach(button => {
         button.addEventListener('click', () => {
-
+            
             let data = button.dataset.function;
             document.querySelectorAll('.col-md-9 > div').forEach(div => { 
                     div.hidden = true; 
@@ -183,3 +187,70 @@ function clickCalculateButton() {
 }
 
 
+
+function voltageCalculate() {
+    const voltageCalculateBtn = document.querySelector(".Voltage");
+    if (voltageCalculateBtn) {
+        voltageCalculateBtn.addEventListener('click', () => {
+
+            document.querySelector(".calc_Voltage").hidden = false;
+
+            const currentInput = document.querySelector('input[name="vol_calc_current"]');
+            const resistanceInput = document.querySelector('input[name="vol_calc_resistance"]');
+
+            if (currentInput && resistanceInput) {
+                const calculate = document.querySelector(".vol_calc_btn");
+
+                calculate.addEventListener('click', () => {
+                    const current = parseFloat(currentInput.value);
+                    const resistance = parseFloat(resistanceInput.value);
+
+                    if (!isNaN(current) && !isNaN(resistance)) {
+                        const voltageValue = current * resistance;
+
+                        const elementOutput = document.querySelector(".free_version_output");
+                        const outputDiv = document.getElementById("output");
+
+                        if (elementOutput && outputDiv) {
+                            elementOutput.innerHTML = `<h4>Voltage: ${voltageValue} V</h4>`;
+                            elementOutput.hidden = false;
+                            outputDiv.hidden = false;
+
+                            console.log("Created: ", elementOutput);
+                            
+                        } else {
+                            console.error("Output element not found!");
+                        }
+
+                    } else {
+                        console.error("Invalid input values for Current or Resistance");
+                    }
+
+                })
+            }
+        })
+    }
+}
+
+
+
+function currentCalculate() {
+    const currentCalculateBtn = document.querySelector(".Current");
+    if (currentCalculateBtn) {
+        currentCalculateBtn.addEventListener('click', () => {
+            console.log("Current Clicked!");
+            
+        })
+    }
+}
+
+
+function resistanceCalculate() {
+    const resistanceCalculateBtn = document.querySelector(".Resistance");
+    if (resistanceCalculateBtn) {
+        resistanceCalculateBtn.addEventListener('click', () => {
+            console.log("Resistance Clicked!");
+            
+        })
+    }
+}

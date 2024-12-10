@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -38,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'circuits'
+    'circuits',
+    'payments'
 ]
 
 MIDDLEWARE = [
@@ -127,4 +129,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'circuits.User'
 
+
+STRIPE_PUBLIC_KEY = os.environ.get('stripe_api_public_key')
+STRIPE_SECRET_KEY = os.environ.get('stripe_api_secret_key')
+STRIPE_PRICE_ID = os.environ.get('stripe_price_id')
+STRIPE_WEBHOOK_SECRET = os.environ.get('stripe_webhook_secret_key')
 

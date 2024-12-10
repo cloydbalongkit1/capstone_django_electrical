@@ -4,8 +4,32 @@ document.addEventListener('DOMContentLoaded', () => {
     prevCalcClassClick();
     profileView();
     deleteButtonPrevPost();
+    helpButton();
+    subscribeBtn();
 
 })
+
+
+function subscribeBtn() {
+    const subscribeBtn = document.querySelector(".home_view_subscribe_btn");
+
+    if (subscribeBtn) {
+        subscribeBtn.addEventListener('click', () => {
+            window.location.href = "/payments"
+        })
+    }
+}
+
+
+function helpButton() {
+    const helpButtonClick = document.querySelector(".home_view_help_btn");
+
+    if (helpButtonClick) {
+        helpButtonClick.addEventListener("click", () => {
+            window.location.href = "/help_solve";        
+        })
+    }
+}
 
 
 
@@ -14,7 +38,6 @@ function profileView() {
 
     if (profileButton) {
         profileButton.addEventListener('click', () => {
-            console.log("clicked");
             window.location.href = "/profile_view";
         })
     }
@@ -33,7 +56,11 @@ function prevCalcClassClick() {
                 const calculated = item.getAttribute("data_calculation_img");
                 const calculationResult = document.getElementById("calculation-result");
 
-                calculationResult.innerHTML = `<h3 class="mt-4">Output</h3><img src="data:image/png;base64,${calculated}" alt="Diagram Image">`;
+                calculationResult.innerHTML = `
+                    <h3 class="mt-4">Calculated Result</h3>
+                    <img class="mx-2" src="data:image/png;base64,${calculated}" alt="Diagram Image">
+                    `;
+                    
                 calculationResult.classList.remove("hidden");
 
             });

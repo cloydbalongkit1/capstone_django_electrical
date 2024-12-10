@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token-meta" content="{{ csrf_token }}">
@@ -14,6 +15,7 @@
     <script src="{% static 'circuits/calculate.js' %}" defer></script>
     <script src="{% static 'circuits/layout.js' %}" defer></script>
     <script src="{% static 'circuits/about.js' %}" defer></script>
+    <script src="https://js.stripe.com/v3/"></script>
 
 </head>
 
@@ -47,6 +49,9 @@
                                 {% else %}
                                     <a class="nav-link disabled" href="{% url 'calculate' %}">Calculate</a>
                                 {% endif %}
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Electrical Theory</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'about' %}">About</a>
