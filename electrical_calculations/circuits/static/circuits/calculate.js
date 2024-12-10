@@ -212,7 +212,7 @@ function voltageCalculate() {
                         const outputDiv = document.getElementById("output");
 
                         if (elementOutput && outputDiv) {
-                            elementOutput.innerHTML = `<h4>Voltage: ${voltageValue} V</h4>`;
+                            elementOutput.innerHTML = `<h4>Voltage: ${voltageValue} Volts</h4>`;
                             elementOutput.hidden = false;
                             outputDiv.hidden = false;
 
@@ -238,8 +238,41 @@ function currentCalculate() {
     const currentCalculateBtn = document.querySelector(".Current");
     if (currentCalculateBtn) {
         currentCalculateBtn.addEventListener('click', () => {
-            console.log("Current Clicked!");
+
+            document.querySelector(".calc_Current").hidden = false;
             
+            const voltageInput = document.querySelector('input[name="cur_calc_voltage"]');
+            const resistanceInput = document.querySelector('input[name="cur_calc_resistance"]');
+
+            if (voltageInput && resistanceInput) {
+                const calculate = document.querySelector(".cur_calc_btn");
+                
+                calculate.addEventListener('click', () => {
+                    const voltage = parseFloat(voltageInput.value);
+                    const resistance = parseFloat(resistanceInput.value);
+
+                    if (!isNaN(voltage) && !isNaN(resistance)) {
+                        const currentValue = voltage / resistance;
+
+                        const elementOutput = document.querySelector(".free_version_output");
+                        const outputDiv = document.getElementById("output");
+
+                        if (elementOutput && outputDiv) {
+                            elementOutput.innerHTML = `<h4>Current: ${currentValue} Amps</h4>`;
+                            elementOutput.hidden = false;
+                            outputDiv.hidden = false;
+
+                            console.log("Created: ", elementOutput);
+                            
+                        } else {
+                            console.error("Output element not found!");
+                        }
+
+                    } else {
+                        console.error("Invalid input values for Current or Resistance");
+                    }
+                })
+            }
         })
     }
 }
@@ -249,8 +282,43 @@ function resistanceCalculate() {
     const resistanceCalculateBtn = document.querySelector(".Resistance");
     if (resistanceCalculateBtn) {
         resistanceCalculateBtn.addEventListener('click', () => {
-            console.log("Resistance Clicked!");
+
+            document.querySelector(".calc_Resistance").hidden = false;
             
+            const voltageInput = document.querySelector('input[name="res_calc_voltage"]');
+            const currentInput = document.querySelector('input[name="res_calc_current"]');
+
+            if (voltageInput && currentInput) {
+                const calculate = document.querySelector(".res_calc_btn");
+                
+                calculate.addEventListener('click', () => {
+                    const voltage = parseFloat(voltageInput.value);
+                    const current = parseFloat(currentInput.value);
+
+                    if (!isNaN(voltage) && !isNaN(current)) {
+                        const resistanceValue = voltage / current;
+
+                        const elementOutput = document.querySelector(".free_version_output");
+                        const outputDiv = document.getElementById("output");
+
+                        if (elementOutput && outputDiv) {
+                            elementOutput.innerHTML = `<h4>Resistance: ${resistanceValue} Ohms</h4>`;
+                            elementOutput.hidden = false;
+                            outputDiv.hidden = false;
+
+                            console.log("Created: ", elementOutput);
+                            
+                        } else {
+                            console.error("Output element not found!");
+                        }
+
+                    } else {
+                        console.error("Invalid input values for Current or Resistance");
+                    }
+                })
+            }
         })
     }
 }
+
+
