@@ -14,6 +14,23 @@ Advanced features are available to subscribers, offering additional tools and fu
 
 ---
 
+## Distinctiveness and Complexity
+
+#### Requirements
+
+- Knowledge of Electrical Theories is required for implementing and solving complex functions.
+- Familiarity with data manipulation libraries like NumPy and Matplotlib is essential for generating and plotting outputs.
+- Matplotlib-generated outputs (via Tkinter) are converted into an in-memory bytes buffer using Buffered I/O. These outputs are saved to the database for future reference if the user decides to store their work.
+
+#### Application Structure
+
+- **Main Folder**: `electrical_calculations`
+  - **`electrical_calculations`**: Manages the entire application.
+  - **`circuits`**: Handles computations, home, about, and user profile.
+  - **`payments`**: Manages Stripe payment integration.
+
+---
+
 ## Technology Stack
 
 - **Backend**: Python, Django
@@ -27,20 +44,26 @@ Advanced features are available to subscribers, offering additional tools and fu
 
 - Perform accurate and professional-grade electrical engineering calculations.
 - User-friendly interface for ease of use.
-- Subscription-based access to some advanced features (some features are in development).
-- Future adds other engineering field calculations. (planning stage for development)
+- Subscription-based access to advanced features (some features under development).
+- Future plans include adding calculations for other engineering fields (currently in the planning stage).
+---
+
+## Usage
+
+- Use the application as a web-based tool for electrical engineering calculations and theories.
+- Ensure you have a subscription to unlock additional features.
+- A solid understanding of Electrical Engineering theories is recommended to fully utilize the platform's capabilities.
 
 ---
 
 ## Installation
 
-- As for now, the application is not available online. 
-- To run the application locally, follow these steps:
+Currently, the application is not available online. To run the application locally, follow these steps:
 
 1. Clone the repository:
 
    ```bash
-   git clone <https://github.com/cloydbalongkit1/capstone_django_electrical.git>
+   git clone https://github.com/cloydbalongkit1/capstone_django_electrical.git
    cd electrical-calculations
    ```
 
@@ -49,8 +72,6 @@ Advanced features are available to subscribers, offering additional tools and fu
    ```bash
    python -m venv venv
    source venv/bin/activate   # On Windows: venv\Scripts\activate
-   ```
-   ```bash
    pip install -r requirements.txt
    ```
 
@@ -68,23 +89,18 @@ Advanced features are available to subscribers, offering additional tools and fu
 
 5. Access the application in your browser at `http://127.0.0.1:8000`.
 
+6. **Important**: Set up your own Stripe account and replace the placeholder keys in **`settings.py`** with your own Stripe API keys. Since the app is not yet online, this step is required for testing payment functionality.
 
-6. Important: Setup you own Stripe account and replace it with your own stripe keys in the **settings.py**. This is because the app is not yet in online. 
+   ```python
+   STRIPE_PUBLIC_KEY = os.environ.get('stripe_api_public_key')
+   STRIPE_SECRET_KEY = os.environ.get('stripe_api_secret_key')
+   STRIPE_PRICE_ID = os.environ.get('stripe_price_id')
+   STRIPE_WEBHOOK_SECRET = os.environ.get('stripe_webhook_secret_key')
+   ```
 
-```bash
-STRIPE_PUBLIC_KEY = os.environ.get('stripe_api_public_key')
-STRIPE_SECRET_KEY = os.environ.get('stripe_api_secret_key')
-STRIPE_PRICE_ID = os.environ.get('stripe_price_id')
-STRIPE_WEBHOOK_SECRET = os.environ.get('stripe_webhook_secret_key')
-```
-- Stripe documentation will tell you how to get this keys.
+   Refer to Stripe's documentation for instructions on obtaining these keys.
 
----
 
-## Usage
-
-- Use the application as a web-based tool for electrical engineering calculations and theories.
-- Ensure you have a subscription to unlock more features and also knowledgeable in Electrical Engineering theories to utilize them effectively.
 
 ---
 
@@ -96,11 +112,11 @@ This application is a **capstone project for CS50W**, developed solely by me. Sp
 
 ## Contact
 
-If you have any feedback or suggestions, please reach out at: [[cloydbalongkit1@gmail.com](mailto\:your-email@example.com)].
+For feedback or suggestions, feel free to reach out at: [cloydbalongkit1@gmail.com](mailto:cloydbalongkit1@gmail.com).
 
 ---
 
-## Challeges
+## Challenges
 
-Development of this application involves significant effort, particularly in handling user-input data for plotting with Matplotlib. The plotted outputs are managed using the Tkinter library. To ensure efficient storage and retrieval, the plots are converted to byte format and saved in memory. This will be an PNG based rendered to browsers. If the user decides to save their work, both the byte-formatted solution and the corresponding input values are stored in the database, serving as a reference for future use. This approach ensures data integrity and usability over time.
+Development of this application involves significant effort, particularly in handling user-input data for plotting with Matplotlib. The plotted outputs are rendered using the Tkinter library, then converted to PNG format and served to browsers. To ensure efficient storage and retrieval, these outputs are saved in memory as byte streams and stored in the database if the user decides to save them. Input values are also saved alongside the plots, providing a comprehensive reference for future use. This approach ensures data integrity and usability over time.
 
