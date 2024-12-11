@@ -40,7 +40,7 @@ Advanced features are available to subscribers, offering additional tools and fu
 1. Clone the repository:
 
    ```bash
-   git clone <https://github.com/........git>
+   git clone <https://github.com/cloydbalongkit1/capstone_django_electrical.git>
    cd electrical-calculations
    ```
 
@@ -103,5 +103,4 @@ If you have any feedback or suggestions, please reach out at: [[cloydbalongkit1@
 ## Challeges
 
 Development of this application involves significant effort, particularly in handling user-input data for plotting with Matplotlib. The plotted outputs are managed using the Tkinter library. To ensure efficient storage and retrieval, the plots are converted to byte format and saved in memory. This will be an PNG based rendered to browsers. If the user decides to save their work, both the byte-formatted solution and the corresponding input values are stored in the database, serving as a reference for future use. This approach ensures data integrity and usability over time.
-
 

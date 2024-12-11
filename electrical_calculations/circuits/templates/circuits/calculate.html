@@ -11,17 +11,21 @@
                 <input type="button" class="btn btn-primary mb-2 calc_btn Voltage" value="Voltage" data-function="calc_Voltage">
                 <input type="button" class="btn btn-primary mb-2 calc_btn Current" value="Current" data-function="calc_Current">
                 <input type="button" class="btn btn-primary mb-2 calc_btn Resistance" value="Resistance" data-function="calc_Resistance">
-            </div>
-        
-            <div class="btn-group-vertical w-75">
+                {% if has_subscription == "active" %}
                 <p class="text-primary text-center mb-2">Paid Mode</p>
                 <input type="button" class="btn btn-primary mb-2 calc_btn" value="Power Triangle" data-function="power_triangle">
                 <input type="button" class="btn btn-primary mb-2 calc_btn" value="Phasor" data-function="phasor">
-                <input type="button" class="btn btn-primary mb-2 calc_btn" value="Off-Grid Solar Design" data-function="off_grid_solar_design">
-                <input type="button" class="btn btn-primary mb-2 calc_btn" value="Grid-Tie Solar Design" data-function="grid_tie_solar_design">
-                <input type="button" class="btn btn-primary mb-2 calc_btn" value="Wire Ampacity" data-function="wire_ampacity">
-                <input type="button" class="btn btn-primary mb-2 calc_btn" value="Voltage Drop Calculations" data-function="voltage_drop_calculations">
+                <input type="button" class="btn btn-secondary mb-2 calc_btn" value="Off-Grid Solar Design" data-function="off_grid_solar_design">
+                <input type="button" class="btn btn-secondary mb-2 calc_btn" value="Grid-Tie Solar Design" data-function="grid_tie_solar_design">
+                <input type="button" class="btn btn-secondary mb-2 calc_btn" value="Wire Ampacity" data-function="wire_ampacity">
+                <input type="button" class="btn btn-secondary mb-2 calc_btn" value="Voltage Drop Calculations" data-function="voltage_drop_calculations">
                 <input type="button" class="btn btn-secondary mb-2 calc_btn" value="Under Development" data-function="" disabled>
+                {% else %}
+                <p class="text-info text-center my-4 py-3 border border-info rounded shadow-sm">
+                    <strong class="p-3">More Features?</strong> 
+                    <a href="{% url 'payment_page' %}" class="btn btn-primary btn-sm mt-3">Subscribe!</a>
+                </p>                
+                {% endif %}
             </div>
         </div>
         

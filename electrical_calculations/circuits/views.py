@@ -9,9 +9,10 @@ from django.http import JsonResponse
 from django.core.serializers import serialize
 
 from .models import User, Calculations
+from .util_views import is_subscribe # ---------> use to determine if the user is subscribed or not
 from electrical_calculations import settings
 
-from payments.models import Subscription # ---------> use to determine if the user is subscribed or not
+ 
 
 from datetime import datetime
 from electricpy import visu, phasors
@@ -95,13 +96,16 @@ def about(request):
 
 @login_required
 def calculate(request):
-    return render(request, "circuits/calculate.html", {"title": "Calculate"})
+    has_subscription = is_subscribe(request.user)
+    return render(request, "circuits/calculate.html", {"title": "Calculate", "has_subscription": has_subscription})
 
 
 @login_required
 def power_triangle(request):
     if request.method == "POST":
         try:
+            has_subscription = is_subscribe(request.user)
+
             P = request.POST.get('power_triangle_P')
             Q = request.POST.get('power_triangle_Q')
             S = request.POST.get('power_triangle_S')
@@ -144,7 +148,8 @@ def power_triangle(request):
                     "show_output": 'true', # used in JS
                     "values": json_values,
                     "title": "Calculate Result",
-                    "power_triangle": "True"
+                    "power_triangle": "True",
+                    "has_subscription": has_subscription
                 })
 
         except ValueError:
@@ -283,6 +288,8 @@ def edit_profile(request):
 def phasor_diagram(request):
     if request.method == "POST":
         try:
+            has_subscription = is_subscribe(request.user)
+
             V1_magnitude = float(request.POST.get("V1_magnitude", 0))
             V1_angle = float(request.POST.get("V1_angle", 0))
             V2_magnitude = float(request.POST.get("V2_magnitude", 0))
@@ -335,6 +342,7 @@ def phasor_diagram(request):
                 "show_output": 'true',
                 "values": json_values,
                 "plot_image": plot_image,
+                "has_subscription": has_subscription
             })
         
         except ValueError:
@@ -376,3 +384,20 @@ def help_solve(request):
     """
     
     return HttpResponse("<h1>help and solve</h1> <br> <h4>Under Development</h4>")
+
+
+
+@login_required
+def electrical_theory(request):
+    """
+    This feature will be all about electrical engineering theories and lectures that will help students.
+
+    All users can view on this and study. 
+
+    Markup language will be use for Input Data and save it to the backend DB.
+
+    Planning to make another app on this or another API.
+
+    """
+    
+    return HttpResponse("<h1>Electrical Theory Page</h1> <br> <h4>Under Development</h4>")
