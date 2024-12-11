@@ -7,6 +7,7 @@ urlpatterns = [
     path('register', views.register, name='register'),
 
     path('home', views.home, name='home'),
+    path('query_messages', views.query_messages, name='query_messages'),
     path('calculate', views.calculate, name='calculate'),
     path('electrical_theory', views.electrical_theory, name='electrical_theory'),
     path('about', views.about, name='about'),

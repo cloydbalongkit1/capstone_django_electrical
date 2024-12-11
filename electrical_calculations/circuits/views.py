@@ -7,8 +7,9 @@ from django.db import IntegrityError
 from django.urls import reverse
 from django.http import JsonResponse
 from django.core.serializers import serialize
+from django.contrib import messages
 
-from .models import User, Calculations
+from .models import User, Calculations, ContactUs
 from .util_views import is_subscribe # ---------> use to determine if the user is subscribed or not
 from electrical_calculations import settings
 
@@ -91,7 +92,28 @@ def home(request):
 
 
 def about(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        subject = request.POST.get("subject")
+        message = request.POST.get("message")
+
+        if name and email and subject and message:
+            ContactUs.objects.create(name=name, email=email, subject=subject, message=message)
+            messages.success(request, "Your message has been successfully sent.")
+            return HttpResponseRedirect(reverse('home'))
+        else:
+            error_message = "All fields are required. Please fill out every field."
+            return render(request, "circuits/about.html", {"title": "About", "error_message": error_message})
+
     return render(request, "circuits/about.html", {"title": "About"})
+
+
+@login_required
+def query_messages(request):
+    count = ContactUs.objects.count()
+    return JsonResponse({"unread_count": count})
+
 
 
 @login_required

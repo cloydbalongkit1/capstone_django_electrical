@@ -31,3 +31,17 @@ class Calculations(models.Model):
     
 
 
+class ContactUs(models.Model):
+    name = models.CharField(max_length=100, blank=False, verbose_name="Full Name")
+    email = models.EmailField(blank=False, verbose_name="Email Address")
+    subject = models.CharField(max_length=100, blank=False, verbose_name="Subject")
+    message = models.TextField(blank=False, verbose_name="Message")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Submitted At")
+
+    class Meta:
+        verbose_name = "Contact Query"
+        verbose_name_plural = "Contact Queries"
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"Query from {self.name} - {self.subject} ({self.created_at.strftime('%Y-%m-%d')})"

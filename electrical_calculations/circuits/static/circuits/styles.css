@@ -48,3 +48,15 @@ html, body {
 .hidden {
     display: none;
 }
+
+
+
+.bell-hover {
+    padding: 10px; 
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.bell-hover:hover {
+    cursor: pointer; 
+}

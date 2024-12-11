@@ -1,7 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
+    queryMessage();
+
     
     document.getElementById("currentYear").textContent = new Date().getFullYear();
-    
+
     function updateClock() {
         const now = new Date();
         const timeFormatter = new Intl.DateTimeFormat('en-US', {
@@ -16,6 +18,44 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     setInterval(updateClock, 1);
+
+
+    
 })
+
+
+function queryMessage() {
+    const csrfTokenMeta = document.querySelector('meta[name="csrf-token-meta"]').content;
+    const messageSpan = document.querySelector(".user_query_messages_span");
+
+    if (messageSpan) {
+        fetch('/query_messages', {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfTokenMeta,
+            },
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            return response.json();
+        })
+        .then(data => {
+            console.log("Backend Data:", data);
+
+            const badge = messageSpan.querySelector(".badge");
+            if (badge && data.unread_count !== undefined) {
+                badge.textContent = data.unread_count;
+            }
+        })
+
+        .catch(error => {
+            console.error("Error fetching query messages:", error);
+        });
+    }
+}
 
 
