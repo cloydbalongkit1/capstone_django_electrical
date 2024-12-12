@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponseRedirect, get_object_or_404, HttpResponse
+from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
@@ -10,8 +10,8 @@ from django.core.serializers import serialize
 from django.contrib import messages
 
 from .models import User, Calculations, ContactUs
-from .util_views import is_subscribe # ---------> use to determine if the user is subscribed or not
-from electrical_calculations import settings
+from .util_views import is_subscribe
+# from electrical_calculations import settings
 
  
 
@@ -416,7 +416,7 @@ def help_solve(request):
 
     """
     
-    return HttpResponse("<h1>help and solve</h1> <br> <h4>Under Development</h4>")
+    return render(request, "circuits/help.html", {"title": "Help Page"})
 
 
 
