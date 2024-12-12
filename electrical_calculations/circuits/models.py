@@ -37,6 +37,7 @@ class ContactUs(models.Model):
     subject = models.CharField(max_length=100, blank=False, verbose_name="Subject")
     message = models.TextField(blank=False, verbose_name="Message")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Submitted At")
+    is_read = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "Contact Query"

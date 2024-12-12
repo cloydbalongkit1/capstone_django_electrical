@@ -1,0 +1,97 @@
+{% extends "circuits/layout.html" %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white text-center">
+            <h3>Understanding Fault Calculations in Electrical Engineering</h3>
+        </div>
+        <div class="card-body">
+            <p class="text-muted">This article provides a comprehensive overview of fault calculations, symmetrical components, and their importance in electrical engineering.</p>
+
+            <!-- Introduction Section -->
+            <div class="mb-4">
+                <h4>Introduction</h4>
+                <p>
+                    Fault calculations are critical in the design and operation of electrical power systems. They help engineers ensure the system remains safe and reliable during abnormal conditions such as short circuits, line-to-line faults, or ground faults. 
+                </p>
+                <p>
+                    Symmetrical components, introduced by Charles Fortescue, form the basis for analyzing unbalanced systems. By decomposing unbalanced systems into balanced sets, engineers can simplify complex fault scenarios.
+                </p>
+            </div>
+
+            <!-- Symmetrical Components Section -->
+            <div class="mb-4">
+                <h4>What Are Symmetrical Components?</h4>
+                <p>
+                    Symmetrical components are a mathematical tool used to simplify the analysis of unbalanced three-phase systems. They break down an unbalanced system into three sets of balanced components:
+                </p>
+                <ul>
+                    <li><strong>Positive Sequence:</strong> Balanced system rotating in the original phase sequence.</li>
+                    <li><strong>Negative Sequence:</strong> Balanced system rotating in the reverse phase sequence.</li>
+                    <li><strong>Zero Sequence:</strong> Identical components in all three phases.</li>
+                </ul>
+                <p>
+                    Using these components, engineers can analyze faults such as single-phase-to-ground, line-to-line, and three-phase faults with ease.
+                </p>
+            </div>
+
+            <!-- Fault Analysis Section -->
+            <div class="mb-4">
+                <h4>Fault Analysis and Calculations</h4>
+                <p>
+                    Fault analysis involves determining the current and voltage levels during a fault condition. This is essential for selecting appropriate protective devices and ensuring system stability.
+                </p>
+                <h5>Key Steps in Fault Analysis:</h5>
+                <ol>
+                    <li>Identify the type of fault (e.g., single-line-to-ground, double-line-to-ground).</li>
+                    <li>Determine system parameters such as source impedance and line impedance.</li>
+                    <li>Calculate fault current using symmetrical components and equivalent circuits.</li>
+                </ol>
+                <p>
+                    For example, consider a single-phase fault at Point A in the system below (Figure 1). The fault current can be calculated as:
+                </p>
+                <p class="text-center text-muted fst-italic">Fault Current (I<sub>fault</sub>) = V<sub>source</sub> / Z<sub>total</sub></p>
+            </div>
+
+            <!-- Diagram Section -->
+            <div class="mb-4">
+                <h4>Diagrams</h4>
+                <div class="text-center mb-3">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/96/One-line_diagram.svg" alt="Fault Diagram" class="img-fluid">
+                    <p class="text-muted">Figure 1: Single-line diagram illustrating a fault condition.</p>
+                </div>
+                <div class="text-center">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Symmetrical_components_three_phase.svg" alt="Circuit Diagram" class="img-fluid">
+                    <p class="text-muted">Figure 2: Detailed circuit representation for symmetrical component analysis.</p>
+                </div>
+            </div>
+
+            <!-- Importance of Fault Analysis -->
+            <div class="mb-4">
+                <h4>Importance of Fault Calculations</h4>
+                <p>
+                    Fault calculations are not just theoretical exercises; they play a crucial role in practical engineering. Here are some key reasons why fault analysis is important:
+                </p>
+                <ul>
+                    <li>Ensures the safety of equipment and personnel.</li>
+                    <li>Helps in designing protective devices like circuit breakers and relays.</li>
+                    <li>Prevents cascading failures by isolating faulted sections.</li>
+                    <li>Improves system reliability and performance.</li>
+                </ul>
+            </div>
+
+            <!-- Conclusion -->
+            <div class="mb-4">
+                <h4>Conclusion</h4>
+                <p>
+                    Understanding fault calculations and symmetrical components is essential for modern electrical engineering. These concepts enable the analysis of unbalanced systems, ensuring safe and reliable operation during fault conditions.
+                </p>
+                <p>
+                    For further study, engineers should explore software tools and simulation platforms that allow for advanced fault analysis and system modeling.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

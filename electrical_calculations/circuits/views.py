@@ -109,10 +109,21 @@ def about(request):
     return render(request, "circuits/about.html", {"title": "About"})
 
 
+
 @login_required
 def query_messages(request):
-    count = ContactUs.objects.count()
-    return JsonResponse({"unread_count": count})
+    unread_count = ContactUs.objects.filter(is_read=False).count()
+    return JsonResponse({"unread_count": unread_count})
+
+
+
+@login_required
+def contacted_messages(request):
+    contact_us = ContactUs.objects.all().order_by("-created_at")
+    return render(request, "circuits/contacted_mgs.html", {
+            "title": "Contacted Messages",
+            "contact_us": contact_us,
+        })
 
 
 
@@ -422,4 +433,4 @@ def electrical_theory(request):
 
     """
     
-    return HttpResponse("<h1>Electrical Theory Page</h1> <br> <h4>Under Development</h4>")
+    return render(request, "circuits/theory.html", {"title": "Electrical Theory"})

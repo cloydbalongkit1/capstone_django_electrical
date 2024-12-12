@@ -24,5 +24,7 @@ urlpatterns = [
 
     path('help_solve', views.help_solve, name='help_solve'),
 
+    path('contacted_messages', views.contacted_messages, name='contacted_messages'),
+
 ]
 

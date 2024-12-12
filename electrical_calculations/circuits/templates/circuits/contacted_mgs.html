@@ -1,0 +1,39 @@
+{% extends "circuits/layout.html" %}
+
+{% block body %}
+<div class="container mt-2">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Contact Us - Concerns</h5>
+        </div>
+        <div class="card-body p-0">
+            {% if contact_us %}
+                <ul class="list-group list-group-flush">
+                    {% for concern in contact_us %}
+                        <li class="concern_email_lists list-group-item concern-item {% if concern.is_read %}read{% else %}unread{% endif %}"
+                            name="{{ concern.name }}"
+                            >
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="mb-1">{{ concern.name }}</h6>
+                                    <p class="mb-0 text-muted">
+                                        <small>{{ concern.email }}</small>
+                                    </p>
+                                    <p class="mb-0">{{ concern.subject }}</p>
+                                </div>
+                                <div class="text-muted text-end">
+                                    <small>{{ concern.created_at }}</small>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-center text-muted py-3">No concerns available.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

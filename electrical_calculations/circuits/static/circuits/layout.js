@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     queryMessage();
+    bellClicked();
+    concernEmailClicked();
 
     
     document.getElementById("currentYear").textContent = new Date().getFullYear();
@@ -19,9 +21,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setInterval(updateClock, 1);
 
-
-    
 })
+
 
 
 function queryMessage() {
@@ -58,4 +59,29 @@ function queryMessage() {
     }
 }
 
+
+
+function bellClicked() {
+    const bell = document.querySelector(".bell-hover");
+    if (bell) {
+        bell.addEventListener('click', () => {
+            window.location.href = '/contacted_messages';
+        }) 
+    }
+}
+
+
+
+function concernEmailClicked() {
+    const concernEmails = document.querySelectorAll(".concern_email_lists");
+    if (concernEmails) {
+        concernEmails.forEach((concern) => {
+            concern.addEventListener('click', () => {
+                const concernName = concern.getAttribute("name");
+                alert(`You clicked ${concernName}`)
+                // communicate to the backend the make the email on the database as a read or opened
+            })
+        })
+    }
+}
 

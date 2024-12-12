@@ -60,3 +60,44 @@ html, body {
 .bell-hover:hover {
     cursor: pointer; 
 }
+
+
+
+
+.concern-item.read {
+    background-color: #f1f3f4;
+    color: #5f6368;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.concern-item.read:hover {
+    background-color: #e8eaed; 
+    color: #202124; 
+    cursor: pointer;
+}
+
+.concern-item.unread {
+    background-color: #ffffff; 
+    color: #202124; 
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.concern-item.unread:hover {
+    background-color: #f1f3f4; 
+    color: #202124;
+    cursor: pointer;
+}
+
+.concern-item {
+    border: none;
+    padding: 15px;
+}
+
+.concern-item:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
+    border-radius: 4px; 
+}
+
+.list-group-item {
+    transition: box-shadow 0.3s, border-radius 0.3s;
+}
