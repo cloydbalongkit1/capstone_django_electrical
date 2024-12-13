@@ -1,0 +1,40 @@
+Description: Simulates a card tGeneral Test Card
+Number: 4242 4242 4242 4242
+Expiration Date: Any valid future date (e.g., 12/34)
+CVC: Any 3 digits (e.g., 123)
+This card is for testing successful transactions.
+
+Other Useful Test Cards
+
+Authentication (3D Secure)
+Successful Authentication:
+Number: 4000 0027 6000 3184
+
+Failed Authentication:
+Number: 4000 0000 0000 3063
+
+Insufficient Funds
+Number: 4000 0000 0000 9995
+
+Card Declined
+Number: 4000 0000 0000 0002
+
+Expired Card
+Number: 4000 0000 0000 0069
+
+Incorrect CVC
+Number: 4000 0000 0000 0127
+
+Processing Error
+Number: 4000 0000 0000 0119
+
+Debit Card
+Number: 4000 0000 0000 0077
+
+Prepaid Card
+Number: 4000 0000 0000 0044
+
+Test Expiration Dates
+For all test cards:
+
+Use any future expiration date (e.g., 12/34).
