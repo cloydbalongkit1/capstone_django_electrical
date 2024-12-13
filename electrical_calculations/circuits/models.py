@@ -48,24 +48,5 @@ class ContactUs(models.Model):
         return f"Query from {self.name} - {self.subject} ({self.created_at.strftime('%Y-%m-%d')})"
     
 
-
-class ReplyContactUs(models.Model):
-    superuser_name = models.CharField(max_length=100, blank=False, verbose_name="Superuser Name")
-    contact_us_message = models.ForeignKey(
-        ContactUs,
-        on_delete=models.CASCADE,
-        related_name="replies",
-        verbose_name="Contact Query"
-    )
-    reply_message = models.TextField(blank=False, verbose_name="Reply Message")
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Replied At")
-
-    class Meta:
-        verbose_name = "Reply to Query"
-        verbose_name_plural = "Replies to Queries"
-        ordering = ["-created_at"]
-
-    def __str__(self):
-        return f"Reply by {self.superuser_name} to {self.contact_us_message.subject} ({self.created_at.strftime('%Y-%m-%d')})"
     
 

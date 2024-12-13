@@ -1,19 +1,17 @@
-from django.shortcuts import render, HttpResponseRedirect, get_object_or_404, HttpResponse
+from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
+from django.http import JsonResponse, HttpResponseForbidden, HttpResponseNotAllowed
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.core.paginator import Paginator
 from django.db import IntegrityError
 from django.urls import reverse
-from django.http import JsonResponse, HttpResponseForbidden, HttpResponseNotAllowed
+
 from django.core.serializers import serialize
 from django.contrib import messages
 
 from .models import User, Calculations, ContactUs
 from .util_views import is_subscribe
-# from electrical_calculations import settings
-
- 
 
 from datetime import datetime
 from electricpy import visu, phasors
@@ -24,8 +22,8 @@ import io
 import base64
 import json
 
-
 matplotlib.use('Agg')
+
 
 
 def user_login(request):
@@ -47,10 +45,12 @@ def user_login(request):
     return render(request, "circuits/login.html", {"title": "Login"})
 
 
+
 @login_required
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse("user_login"))
+
 
 
 def register(request):
@@ -83,12 +83,13 @@ def register(request):
             return render(request, "circuits/register.html", {
                 "message": "An error occurred while creating the account. Please try again."
             })
-        
     return render(request, "circuits/register.html")
+
 
 
 def home(request):
     return render(request, "circuits/home.html", {"title": "Home"})
+
 
 
 def about(request):
@@ -105,7 +106,6 @@ def about(request):
         else:
             error_message = "All fields are required. Please fill out every field."
             return render(request, "circuits/about.html", {"title": "About", "error_message": error_message})
-
     return render(request, "circuits/about.html", {"title": "About"})
 
 
@@ -146,7 +146,7 @@ def contacted_message(request, id):
     content = get_object_or_404(ContactUs, id=id)
     content.is_read = True
     content.save()
-    
+
     return render(request, "circuits/contacted_mg.html", {
         "title": f"{content.id}/{content.name}",
         "content": content,
@@ -170,6 +170,7 @@ def delete_contact_us(request, id):
 def calculate(request):
     has_subscription = is_subscribe(request.user)
     return render(request, "circuits/calculate.html", {"title": "Calculate", "has_subscription": has_subscription})
+
 
 
 @login_required
@@ -329,6 +330,7 @@ def profile_view(request):
         "title": "Profile",
         "user": user
     })
+
 
 
 @login_required
