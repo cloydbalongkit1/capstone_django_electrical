@@ -1,36 +1,43 @@
 {% extends "circuits/layout.html" %}
 
 {% block body %}
-<div class="container mt-4">
+<div class="container mt-4 contacted_mg_div">
     <div class="card shadow border-0">
-        <!-- Header Section -->
         <div class="card-header bg-primary text-white">
             <div class="d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">{{ content.subject }}</h5>
                 <small class="text-end">{{ content.created_at }}</small>
             </div>
         </div>
-
-        <!-- Body Section -->
         <div class="card-body">
-            <!-- Sender Information -->
             <div class="mb-3">
                 <h6 class="mb-1">{{ content.name }}</h6>
                 <p class="mb-0 text-muted"><small>{{ content.email }}</small></p>
             </div>
-
-            <!-- Message Content -->
+            <hr>
             <div class="mt-4">
                 <h6 class="text-muted">Message</h6>
                 <p class="mb-0">{{ content.message }}</p>
             </div>
         </div>
-
-        <!-- Footer Section (Optional Actions) -->
-        <div class="card-footer d-flex justify-content-end gap-2">
-            <button class="btn btn-sm btn-outline-secondary">Reply</button>
-            <button class="btn btn-sm btn-outline-danger">Delete</button>
+        <div class="card-footer d-flex justify-content-end gap-2 my-1">
+            <button class="btn btn-sm btn-outline-secondary reply_btn"
+                    onclick="window.open('https://mail.google.com/mail/?view=cm&fs=1&to={{ content.email }}&su=Re%3A+{{ content.subject|urlencode }}&body=Hello+{{ content.name }}%2C%0D%0A%0D%0A','_blank');">
+                    Reply
+            </button>
+            <form method="POST" action="{% url 'delete_contact_us' content.id %}" class="d-inline">
+                {% csrf_token %}
+                <button 
+                    type="submit" 
+                    class="btn btn-sm btn-outline-danger delete_btn" 
+                    onclick="return confirm('Are you sure you want to delete this message?');">
+                    Delete
+                </button>
+            </form>
         </div>
     </div>
 </div>
 {% endblock %}
+
+
+

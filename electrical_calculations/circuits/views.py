@@ -5,7 +5,7 @@ from django.views.decorators.http import require_POST
 from django.core.paginator import Paginator
 from django.db import IntegrityError
 from django.urls import reverse
-from django.http import JsonResponse, HttpResponseForbidden
+from django.http import JsonResponse, HttpResponseForbidden, HttpResponseNotAllowed
 from django.core.serializers import serialize
 from django.contrib import messages
 
@@ -120,7 +120,11 @@ def query_messages(request):
 @login_required
 def contacted_messages(request):
     if not request.user.is_superuser:
-        return HttpResponseForbidden("You do not have permission to access this page.")
+         return HttpResponseForbidden(
+            "<h1 style='color: red; text-align: center; margin-top: 50px; font-family: Arial, sans-serif;'>"
+            "You do not have permission to access this page."
+            "</h1>"
+        )
     
     contact_us = ContactUs.objects.all().order_by("-created_at")
     return render(request, "circuits/contacted_mgs.html", {
@@ -133,13 +137,32 @@ def contacted_messages(request):
 @login_required
 def contacted_message(request, id):
     if not request.user.is_superuser:
-        return HttpResponseForbidden("You do not have permission to access this page.")
+        return HttpResponseForbidden(
+            "<h1 style='color: red; text-align: center; margin-top: 50px; font-family: Arial, sans-serif;'>"
+            "You do not have permission to access this page."
+            "</h1>"
+        )
     
     content = get_object_or_404(ContactUs, id=id)
+    content.is_read = True
+    content.save()
+    
     return render(request, "circuits/contacted_mg.html", {
         "title": f"{content.id}/{content.name}",
         "content": content,
     })
+
+
+
+@login_required
+def delete_contact_us(request, id):
+    if request.method == "POST":
+        deleted_message = get_object_or_404(ContactUs, id=id)
+        deleted_message.delete()
+        messages.success(request, "The message has been successfully deleted.")
+        return HttpResponseRedirect(reverse('contacted_messages'))
+    else:
+        return HttpResponseNotAllowed(["POST"])
 
 
 
