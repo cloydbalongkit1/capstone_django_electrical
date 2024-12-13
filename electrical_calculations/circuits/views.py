@@ -1,11 +1,11 @@
-from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
+from django.shortcuts import render, HttpResponseRedirect, get_object_or_404, HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.core.paginator import Paginator
 from django.db import IntegrityError
 from django.urls import reverse
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseForbidden
 from django.core.serializers import serialize
 from django.contrib import messages
 
@@ -119,11 +119,27 @@ def query_messages(request):
 
 @login_required
 def contacted_messages(request):
+    if not request.user.is_superuser:
+        return HttpResponseForbidden("You do not have permission to access this page.")
+    
     contact_us = ContactUs.objects.all().order_by("-created_at")
     return render(request, "circuits/contacted_mgs.html", {
             "title": "Contacted Messages",
             "contact_us": contact_us,
         })
+
+
+
+@login_required
+def contacted_message(request, id):
+    if not request.user.is_superuser:
+        return HttpResponseForbidden("You do not have permission to access this page.")
+    
+    content = get_object_or_404(ContactUs, id=id)
+    return render(request, "circuits/contacted_mg.html", {
+        "title": f"{content.id}/{content.name}",
+        "content": content,
+    })
 
 
 

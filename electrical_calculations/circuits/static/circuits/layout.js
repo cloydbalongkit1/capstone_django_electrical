@@ -77,9 +77,8 @@ function concernEmailClicked() {
     if (concernEmails) {
         concernEmails.forEach((concern) => {
             concern.addEventListener('click', () => {
-                const concernName = concern.getAttribute("name");
-                alert(`You clicked ${concernName}`)
-                // communicate to the backend the make the email on the database as a read or opened
+                const concernID = concern.getAttribute("name");
+                window.location.href = `/contacted_message/${encodeURIComponent(concernID)}`;
             })
         })
     }

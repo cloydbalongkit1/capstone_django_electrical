@@ -1,0 +1,36 @@
+{% extends "circuits/layout.html" %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="card shadow border-0">
+        <!-- Header Section -->
+        <div class="card-header bg-primary text-white">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">{{ content.subject }}</h5>
+                <small class="text-end">{{ content.created_at }}</small>
+            </div>
+        </div>
+
+        <!-- Body Section -->
+        <div class="card-body">
+            <!-- Sender Information -->
+            <div class="mb-3">
+                <h6 class="mb-1">{{ content.name }}</h6>
+                <p class="mb-0 text-muted"><small>{{ content.email }}</small></p>
+            </div>
+
+            <!-- Message Content -->
+            <div class="mt-4">
+                <h6 class="text-muted">Message</h6>
+                <p class="mb-0">{{ content.message }}</p>
+            </div>
+        </div>
+
+        <!-- Footer Section (Optional Actions) -->
+        <div class="card-footer d-flex justify-content-end gap-2">
+            <button class="btn btn-sm btn-outline-secondary">Reply</button>
+            <button class="btn btn-sm btn-outline-danger">Delete</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

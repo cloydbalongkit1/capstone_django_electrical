@@ -44,6 +44,7 @@ Advanced features are available to subscribers, offering additional tools and fu
 
 - Perform accurate and professional-grade electrical engineering calculations.
 - User-friendly interface for ease of use.
+- Contact Us support. Access for superuser only.
 - Subscription-based access to advanced features (some features under development).
 - Future plans include adding calculations for other engineering fields (currently in the planning stage).
 ---
